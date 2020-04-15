@@ -1,0 +1,55 @@
+---
+title: "Contagion Overview by US State"
+author: "Jeff Renz, Brian Liberatore"
+date: "`r Sys.Date()`"
+output: 
+  powerpoint_presentation:
+    reference_doc: PASS_Template.potx
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,warn=-1)
+#options(warn=-1)
+```
+
+```{r LoadData, echo=FALSE, warning=FALSE, message=FALSE}
+source("00_load_libraries.R")
+source("01_load_data.R")
+source("02_load_functions.R")
+```
+
+# Top 10 states affected by COVID-19
+```{r States_overview, warning = FALSE, message = FALSE, echo=FALSE, fig.width=12}
+State <- as.factor(state.name[match(data$state, state.abb)])
+
+kable(
+data %>%
+  cbind(State) %>%
+  group_by(State) %>%
+  summarise("Total Cases" = max(cases), "Total Deaths" = max(deaths)) %>%
+  arrange(desc(`Total Cases`)) %>%
+  head(10)
+)
+
+```
+
+# Market Summary
+```{r marketsummary, echo=FALSE}
+
+print("temp")
+```
+
+# State Information
+:::::::::::::: {.columns}
+::: {.column}
+```{r SemiconductorSales, echo=FALSE, message=FALSE, warning=FALSE}
+percent_change_chart("CO")
+
+```
+:::
+::: {.column}
+```{r SemiconductorGM, echo=FALSE,message=FALSE,warning=FALSE}
+state_map_function("CO")
+```
+:::
+::::::::::::::
